@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "567387156474",
+    "firebase_url": "https://insulindatabase-default-rtdb.firebaseio.com",
+    "project_id": "insulindatabase",
+    "storage_bucket": "insulindatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567387156474:android:7808bdd4bd3bd2c118be43",
+        "android_client_info": {
+          "package_name": "com.preenapa.AlarmInsugarApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJJyungPcKIf6pZXSh6kXwkAuo05Vn4uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
