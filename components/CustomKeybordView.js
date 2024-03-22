@@ -1,55 +1,28 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-  Image,
-  AppRegistry,
-  ImageBackground,
-  Pressable,
-  FlatList,
-  KeyboardAvoidingView,
-  ScrollView, 
-} from "react-native";
-
-import {
-  Button,
-  TextInput,
-  Avatar,
-  Provider as PaperProvider,
-  DefaultTheme,
-  configureFonts,
-  MD2LightTheme,
-} from "react-native-paper";
+import {KeyboardAvoidingView, Platform, ScrollView,} from "react-native";
 
 const ios = Platform.OS == "ios";
-export default function CustomKeybordView({ children ,inChat}) {
+export default function CustomKeybordView({children, inChat}) {
     let kavConfig = {};
     let ScrollViewConfig = {};
-    if(inChat){
+    if (inChat) {
         kavConfig = {keyboardVerticalOffset: 10};
-        ScrollViewConfig = { contentContainerStyle: {flex: 1}};
+        ScrollViewConfig = {contentContainerStyle: {flex: 1}};
     }
-  return (
-    <KeyboardAvoidingView
-      behavior={ios ? "padding" : "height"}
-      style={{ flex: 1 }}
-      {...kavConfig}
-    >
-      <ScrollView
-        style={{ flex: 1 }}
-        bounces={false}
-        showsVerticalScrollIndicator={false}
-        {...ScrollViewConfig}
-      >
-        {children}
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
+    return (
+        <KeyboardAvoidingView
+            behavior={ios ? "padding" : "height"}
+            style={{flex: 1}}
+            {...kavConfig}
+        >
+            <ScrollView
+                style={{flex: 1}}
+                bounces={false}
+                showsVerticalScrollIndicator={false}
+                {...ScrollViewConfig}
+            >
+                {children}
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 }

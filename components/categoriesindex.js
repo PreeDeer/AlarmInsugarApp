@@ -18,7 +18,7 @@ export const categoriesData = [
         title: 'วัดระดับ น้ำตาลในเลือด',
         image: require('../assets/images/3.png'),
         component: 'Sugargrade',
-        
+
     },
     {
         id: 4,
@@ -26,7 +26,7 @@ export const categoriesData = [
         image: require('../assets/imgMore/mgr.png'),
         component: 'Graph',
     },
-    
+
 ]
 
 export const categoriesData2 = [
@@ -54,7 +54,7 @@ export const categoriesData2 = [
         image: require('../assets/imgMore/mg.png'),
         component: 'GraphHistory',
     },
-    
+
 ]
 
 export const categoriesData3 = [
@@ -94,5 +94,5 @@ export const categoriesData3 = [
         image: require('../assets/imgMore/myou.png'),
         component: 'TypeInsulin',
     },
-    
+
 ]
