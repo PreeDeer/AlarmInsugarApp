@@ -1,17 +1,15 @@
 import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-//--------------------------------------------------------------------------------//
 import LoginScreen from "./screens/mainview/Login";
 import OTPScreen from "./screens/mainview/OTP";
 import RegisterScreen from "./screens/mainview/register";
 
-import HomeScreen from "./screens/Menumain/Home";
+import HomeScreen from "./screens/mainview/Home";
 import AlarmmainScreen from "./screens/Alarm/Alarmmain";
-import MoreScreen from "./screens/Menumain/Moremenu";
+import MoreScreen from "./screens/mainview/Moremenu";
 
 import NavigationmenuScreen from "./Navigations/Navigationmenu";
 
@@ -21,23 +19,14 @@ import SugargradeScreen from "./screens/usersscreens/SugarGrade";
 import ChatusersScreen from "./screens/usersscreens/Chatusers";
 import GraphScreen from "./screens/usersscreens/Graph";
 
-import AlarmClockScreen from "./screens/Alarm/AlarmClock";
 import GaugeHistoryScreen from "./screens/usersscreens/MedicalHistory/GaugeHistory";
 import GraphHistoryScreen from "./screens/usersscreens/MedicalHistory/GraphHistory";
-
-import NotificationsScreen from "./screens/Alarm/Notifications";
 
 import ProflieScreen from "./screens/usersscreens/Proflie"; 
 
 import HyperglycemiaInformationScreen from "./screens/usersscreens/HyperglycemiaInformation"; 
 import HypoglycemiaInformationScreen from "./screens/usersscreens/HypoglycemiaInformation";
 
-import IntructionInsulinScreen from "./screens/usersscreens/Avi/IntructionInsulin";
-import ProvideInsulinScreen from "./screens/usersscreens/Avi/ProvideInsulin";
-import TypeInsulinScreen from "./screens/usersscreens/Avi/TypeInsulin";
-import KeepInsulinScreen from "./screens/usersscreens/Avi/KeepInsulin";
-
-//--------------------------------------------------------------------------------//
 import loginAdminScreen from "./screenadmin/loginAdmin";
 import HomeAdminScreen from "./screenadmin/HomeAdmin";
 import IndexUsersScreen from "./screenadmin/IndexUsers";
@@ -45,18 +34,7 @@ import EditUserProScreen from "./screenadmin/EditUserPro";
 import ReadHistoryUsersGScreen from "./screenadmin/ReadHitoryUserG";
 import ReadHistoryUsersAScreen from "./screenadmin/ReadHitoryUserA";
 import ChatAdminScreen from "./screenadmin/ChatAdmin";
-//--------------------------------------------------------------------------------//
-import * as Notifications from "expo-notifications";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-
-//--------------------------------------------------------------------------------//
+//
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
@@ -73,10 +51,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const analytics = getAnalytics(app);
-//--------------------------------------------------------------------------------//
-
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
@@ -96,8 +71,7 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-
-        <Stack.Screen
+                <Stack.Screen
           name="OTP"
           component={OTPScreen}
           options={{
@@ -111,7 +85,6 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
@@ -126,7 +99,6 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-
         <Stack.Screen
           name="Navigationmenu"
           component={NavigationmenuScreen}
@@ -187,7 +159,22 @@ const App = () => {
           }}
         />
 
-        <Stack.Screen
+<Stack.Screen
+          name="loginAdmin"
+          component={loginAdminScreen}
+          options={{
+            headerShown: false,
+            title: "",
+            headerStyle: {
+              backgroundColor: "#C3E3FE",
+            },
+            headerTintColor: "#fff",
+            headerTitleAlign: "center",
+            headerTitleStyle: {},
+          }}
+        />
+
+<Stack.Screen
           name="HyperAaugeI"
           component={HyperAaugeIScreen}
           options={{
@@ -258,34 +245,6 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name="Proflie"
-          component={ProflieScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
-          name="AlarmClock"
-          component={AlarmClockScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
           name="GaugeHistory"
           component={GaugeHistoryScreen}
           options={{
@@ -313,10 +272,9 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-
         <Stack.Screen
-          name="Notifications"
-          component={NotificationsScreen}
+          name="Proflie"
+          component={ProflieScreen}
           options={{
             headerShown: false,
             title: "",
@@ -329,7 +287,7 @@ const App = () => {
           }}
         />
 
-        <Stack.Screen
+<Stack.Screen
           name="HyperglycemiaInformation"
           component={HyperglycemiaInformationScreen}
           options={{
@@ -357,79 +315,8 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-
-        <Stack.Screen
-          name="IntructionInsulin"
-          component={IntructionInsulinScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
-          name="ProvideInsulin"
-          component={ProvideInsulinScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
-          name="TypeInsulin"
-          component={TypeInsulinScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
-          name="KeepInsulin"
-          component={KeepInsulinScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-
-        <Stack.Screen
-          name="loginAdmin"
-          component={loginAdminScreen}
-          options={{
-            headerShown: false,
-            title: "",
-            headerStyle: {
-              backgroundColor: "#C3E3FE",
-            },
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-            headerTitleStyle: {},
-          }}
-        />
-        <Stack.Screen
+        
+                <Stack.Screen
           name="HomeAdmin"
           component={HomeAdminScreen}
           options={{
@@ -443,7 +330,7 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-        <Stack.Screen
+                <Stack.Screen
           name="IndexUsers"
           component={IndexUsersScreen}
           options={{
@@ -514,7 +401,7 @@ const App = () => {
             headerTitleStyle: {},
           }}
         />
-      </Stack.Navigator>
+              </Stack.Navigator>
     </NavigationContainer>
   );
 };

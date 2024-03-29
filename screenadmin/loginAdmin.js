@@ -27,6 +27,8 @@ import {
   onAuthStateChanged 
 } from "firebase/auth";
 
+import EmailIcon from '../assets/icon/email.png'; 
+import PassIcon from '../assets/icon/pass.png'; 
 const loginAdmin = ({ navigation, route }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -123,7 +125,11 @@ const loginAdmin = ({ navigation, route }) => {
           <Text style={styles.Textheader}>Login</Text>
 
           <TextInput
-            left={<TextInput.Icon icon="account" disabled />}
+            left={
+              <TextInput.Icon
+                icon={({ size, color }) => (
+                    <Image source={EmailIcon} style={styles.icon} />
+                )}/>}
             autoFocus
             autoCompleteType="email"
             placeholderTextColor="#A4A6A8"
@@ -144,7 +150,11 @@ const loginAdmin = ({ navigation, route }) => {
             height="90"
           />
           <TextInput
-            left={<TextInput.Icon icon="lock" disabled />}
+            left={
+              <TextInput.Icon
+                icon={({ size, color }) => (
+                    <Image source={PassIcon} style={styles.icon} />
+                )}/>}
             autoFocus
             autoCompleteType="password"
             secureTextEntry={true}
@@ -252,6 +262,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: '#374955' ,
+  }
+  
 });
 
 export default loginAdmin;

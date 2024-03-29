@@ -36,6 +36,8 @@ import {
   ListgaugeHypo2,
 } from "../../../components/categoriesData ";
 
+import BackIcon from '../../../assets/icon/black.png'; 
+
 const numberOfItemsPerPageList = [1, 2, 3, 4];
 
 const items = [
@@ -215,7 +217,7 @@ const HypoAaugeI = ({ navigation,route }) => {
         onPress={() => navigation.goBack()}
         activeOpacity={0.85}
       >
-        <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+        <Image source={BackIcon} style={styles.icon} />
       </TouchableOpacity>
 
       <View style={{ ...styles.itemContainer, margin: 18 }}>
@@ -314,6 +316,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "gray",
   },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
+  }
 });
 
 export default HypoAaugeI;

@@ -46,109 +46,25 @@ import {
 } from "firebase/auth";
 
 import { Icon } from "react-native-elements";
+import BackIcon from '../../assets/icon/black.png'; 
 
 const Proflie = ({ navigation, route }) => {
   const [userData, setUserData] = useState(null);
 
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const [gender, setGender] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [maxsugar, setmaxsugar] = useState("");
-  const [minsugar, setminsugar] = useState("");
-  const [insulinType, setInsulinType] = useState("");
-  const [insulinUnits, setInsulinUnits] = useState("");
-
-  const isFocused = useIsFocused();
-  const auth = getAuth();
-
-  const fetchUserDataByPhoneNumber = async () => {
-    const userPhoneNumber = auth.currentUser.phoneNumber;
-
-    if (userPhoneNumber) {
-      const db = getDatabase();
-      const usersRef = ref(db, "users");
-
-      try {
-        const usersSnapshot = await get(usersRef);
-
-        if (usersSnapshot.exists()) {
-          const users = usersSnapshot.val();
-          const userKey = Object.keys(users).find(
-            (key) => users[key].phoneNumber === userPhoneNumber
-          );
-
-          if (userKey) {
-            const userData = users[userKey];
-            return userData;
-          } else {
-            throw new Error("User not found");
-          }
-        } else {
-          throw aError("No users found");
-        }
-      } catch (error) {
-        throw new Error("Error fetching user data: " + error.message);
-      }
-    } else {
-      throw new Error("User phone number not available");
-    }
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await fetchUserDataByPhoneNumber();
-
-        if (userData) {
-          setUsername(userData.username || "");
-          setPhoneNumber(userData.phoneNumber || "");
-          setGender(userData.gender || "");
-          setBirthDate(userData.birthDate || "");
-          setWeight(userData.weight || "");
-          setHeight(userData.height || "");
-          setmaxsugar(userData.maxsugar || "");
-          setminsugar(userData.minsugar || "");
-          setInsulinType(userData.insulinType || "");
-          setInsulinUnits(userData.insulinUnits || "");
-        } else {
-          setUsername("");
-          setPhoneNumber("");
-          setGender("");
-          setBirthDate("");
-          setWeight("");
-          setHeight("");
-          setmaxsugar("");
-          setminsugar("");
-          setInsulinType("");
-          setInsulinUnits("");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        fetchData();
-      } else {
-        navigation.navigate("Login"); 
-      }
-    });
-
-    return unsubscribe; 
-  }, [isFocused, navigation]);
+    console.log("route.params in useEffect:", route.params);
+    // เมื่อ component ถูก mount หรือ route.params มีการเปลี่ยนแปลง
+    if (route.params && route.params.userData) {
+      // ตรวจสอบว่ามีข้อมูลผู้ใช้ที่ถูกส่งมาหรือไม่
+      const userData = route.params.userData;
+      setUserData(userData);
+      console.log("user",userData);
+    }
+    
+  }, [route.params]);
 
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigation.replace("Login"); 
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
+    navigation.replace("Login"); 
   };
 
   return (
@@ -159,7 +75,7 @@ const Proflie = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}
         activeOpacity={0.85}
       >
-        <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+        <Image source={BackIcon} style={styles.icon} />
       </TouchableOpacity>
 
       <View style={{ flex: 1 }}>
@@ -168,78 +84,55 @@ const Proflie = ({ navigation, route }) => {
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>ชื่อ : </Text>
             <Text style={styles.Textdata}>
-              {" "}
-              {username !== null && username !== ""
-                ? username
-                : (userData && userData.username) || "ชื่อ-สกุล"}{" "}
+{(userData && userData.username) || "ชื่อ-สกุล"}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>เพศ : </Text>
             <Text style={styles.Textdata}>
-              {" "}
-              {gender !== null && gender !== ""
-                ? gender
-                : (userData && userData.gender) || "เพศ"}{" "}
+            {(userData && userData.gender) || "เพศ"}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>วันเดือนปีเกิด : </Text>
             <Text style={styles.Textdata}>
-              {" "}
-              {birthDate !== null && birthDate !== ""
-                ? birthDate
-                : (userData && userData.birthDate) || "วันเดือนปีเกิด"}{" "}
+            {(userData && userData.birthDate) || "วว/ดด/ปป"}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>น้ำหนัก : </Text>
             <Text style={styles.Textdata}>
-              {" "}
-              {weight !== null && weight !== ""
-                ? weight
-                : (userData && userData.weight) || "น้ำหนัก"}{" "}
+            {(userData && userData.weight) || "000"}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>ส่วนสูง : </Text>
             <Text style={styles.Textdata}>
-              {" "}
-              {height !== null && height !== ""
-                ? height
-                : (userData && userData.height) || "ส่วนสูง"}{" "}
+            {(userData && userData.height) || "000"}
             </Text>
           </View>
           <Text style={styles.Textheader}>ข้อมูลการรักษา</Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>ค่าน้ำตาลในเลือด : </Text>
             <Text style={styles.Textdata}>
-              {minsugar !== null && minsugar !== ""
-                ? minsugar
-                : (userData && userData.minsugar) || "mg/dL"}
+            {(userData && userData.minsugar) || "mg/dL"}
             </Text>
             <Text style={styles.Textdata}>-</Text>
             <Text style={styles.Textdata}>
-              {maxsugar !== null && maxsugar !== ""
-                ? maxsugar
-                : (userData && userData.maxsugar) || "mg/dL"}
+            {(userData && userData.maxsugar) || "mg/dL"}
             </Text>
             <Text style={styles.Textdata}>mg/dL</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>ชนิดยาอินซูลิน : </Text>
             <Text style={styles.Textdata}>
-              {insulinType !== null && insulinType !== ""
-                ? insulinType
-                : (userData && userData.insulinType) || "ชนิดยาอินซูลิน"}
+            {(userData && userData.insulinType) || "ชนิด"}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ ...styles.Textmain }}>จำนวนยูนิต : </Text>
             <Text style={styles.Textdata}>
-              {insulinUnits !== null && insulinUnits !== ""
-                ? insulinUnits
-                : (userData && userData.insulinUnits) || "จำนวน ... ยูนิต"}
+            {(userData && userData.insulinUnits) || "00"}
             </Text>
             <Text style={styles.Textdata}>ยูนิต</Text>
           </View>
@@ -339,6 +232,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
+  },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
   },
 });
 

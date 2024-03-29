@@ -29,7 +29,6 @@ import {
 } from "react-native-paper";
 
 import { Icon } from "react-native-elements";
-//import Constants from "expo-constants";
 
 import {
   get,
@@ -44,6 +43,8 @@ import {
 //--------------------------------------------------------------------------------//
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 
+import PenIcon from '../assets/icon/pen.png'; 
+import DownIcon from '../assets/icon/down.png'; 
 const EditUserPro = ({ navigation, route }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -193,12 +194,10 @@ const EditUserPro = ({ navigation, route }) => {
           <Text style={styles.TextheaderTi}>ชื่อผู้ใช้ :</Text>
           <TextInput
             right={
-              <TextInput.Icon
-                icon="pencil"
-                color="#757575"
-                style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-              />
-            }
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
             placeholderTextColor="#A4A6A8"
             mode={"flat"}
             placeholder={userData ? userData.username : "ไม่พบข้อมูล"}
@@ -218,12 +217,10 @@ const EditUserPro = ({ navigation, route }) => {
           <Text style={styles.TextheaderTi}>เบอร์โทรศัพท์ :</Text>
           <TextInput
             right={
-              <TextInput.Icon
-                icon="pencil"
-                color="#757575"
-                style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-              />
-            }
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
             keyboardType="phone-pad"
             placeholderTextColor="#A4A6A8"
             mode={"flat"}
@@ -244,12 +241,10 @@ const EditUserPro = ({ navigation, route }) => {
           <Text style={styles.TextheaderTi}>เพศ :</Text>
           <TextInput
             right={
-              <TextInput.Icon
-                icon="pencil"
-                color="#757575"
-                style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-              />
-            }
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
             placeholderTextColor="#A4A6A8"
             mode={"flat"}
             placeholder={userData ? userData.gender : "ไม่พบข้อมูล"}
@@ -270,12 +265,10 @@ const EditUserPro = ({ navigation, route }) => {
           <Text style={styles.TextheaderTi}>วันเกิด :</Text>
           <TextInput
             right={
-              <TextInput.Icon
-                icon="pencil"
-                color="#757575"
-                style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-              />
-            }
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
             placeholderTextColor="#A4A6A8"
             mode={"flat"}
             placeholder={userData ? userData.birthDate : "ไม่พบข้อมูล"}
@@ -306,13 +299,11 @@ const EditUserPro = ({ navigation, route }) => {
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <TextInput
-              right={
-                <TextInput.Icon
-                  icon="pencil"
-                  color="#757575"
-                  style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-                />
-              }
+            right={
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
               placeholderTextColor="#A4A6A8"
               mode={"flat"}
               placeholder={userData ? userData.weight : "ไม่พบข้อมูล"}
@@ -331,13 +322,11 @@ const EditUserPro = ({ navigation, route }) => {
             />
 
             <TextInput
-              right={
-                <TextInput.Icon
-                  icon="pencil"
-                  color="#757575"
-                  style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-                />
-              }
+            right={
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
               placeholderTextColor="#A4A6A8"
               mode={"flat"}
               placeholder={userData ? userData.height : "ไม่พบข้อมูล"}
@@ -363,13 +352,11 @@ const EditUserPro = ({ navigation, route }) => {
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <TextInput
-              right={
-                <TextInput.Icon
-                  icon="pencil"
-                  color="#757575"
-                  style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-                />
-              }
+            right={
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 10}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
               placeholderTextColor="#A4A6A8"
               mode={"flat"}
               placeholder={userData ? userData.minsugar : "mg/dL"}
@@ -388,13 +375,11 @@ const EditUserPro = ({ navigation, route }) => {
             />
             <Text style={{ ...styles.Textheader, paddingTop: 20 }}> - </Text>
             <TextInput
-              right={
-                <TextInput.Icon
-                  icon="pencil"
-                  color="#757575"
-                  style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-                />
-              }
+            right={
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 10}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
               placeholderTextColor="#A4A6A8"
               mode={"flat"}
               placeholder={userData ? userData.maxsugar : "mg/dL"}
@@ -418,7 +403,7 @@ const EditUserPro = ({ navigation, route }) => {
             right={
               <TextInput.Icon
                 icon={({ size, color }) => (
-                  <List.Icon icon="menu-down" color={color} size={size} />
+                    <Image source={DownIcon} style={styles.icon} />
                 )}
                 onPress={handleDropdownPress}
                 style={{ marginTop: 45, marginRight: 15 }}
@@ -444,12 +429,10 @@ const EditUserPro = ({ navigation, route }) => {
           <Text style={styles.TextheaderTi}>จำนวนยูนิต</Text>
           <TextInput
             right={
-              <TextInput.Icon
-                icon="pencil"
-                color="#757575"
-                style={{ marginTop: 45 }} // ปรับตำแหน่งตามที่ต้องการ
-              />
-            }
+                <TextInput.Icon style={{marginTop: 45, marginEnd: 18}} 
+                    icon={({ size, color }) => (
+                        <Image source={PenIcon} style={{...styles.icon}} />
+                    )}/>}
             placeholderTextColor="#A4A6A8"
             mode={"flat"}
             placeholder={userData ? userData.insulinUnits : "ไม่พบข้อมูล"}
@@ -624,6 +607,12 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     marginTop: 8,
   },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#757575' ,
+  }
 });
 
 export default EditUserPro;

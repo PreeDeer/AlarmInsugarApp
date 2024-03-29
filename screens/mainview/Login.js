@@ -1,7 +1,5 @@
 import * as React from "react";
-
-//import { useState, useRef } from "react";
-import { StatusBar } from "expo-status-bar";
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -44,88 +42,109 @@ import {
 import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
-} from "expo-firebase-recaptcha";
+} from "react-native-google-recaptcha";
 import { initializeApp, getApp } from "firebase/app";
-import { Icon } from "react-native-elements";
-import { FontAwesome5 } from '@expo/vector-icons';
+
+import AdminIcon from '../../assets/icon/admin.png'; 
+import PhoneIcon from '../../assets/icon/phone.png'; 
 //--------------------------------------------------------------------------------//
 
 const Login = ({ navigation }) => {
+
   const [phoneNumber, setPhoneNumber] = React.useState();
-  const auth = getAuth();
-  const app = getApp();
-  const recaptchaVerifier = React.useRef(null);
-  const [verificationId, setVerificationId] = React.useState();
-
-  const firebaseConfig = app ? app.options : undefined;
-  const [message, showMessage] = React.useState();
-  const attemptInvisibleVerification = true;
-
-  const handleLogin = async () => {
-    //navigation.navigate('Home');
-    // Check if the phone number exists in the 'users' database
-    const phoneNumberExists = await checkPhoneNumberExists(phoneNumber);
-    const formattedPhoneNumber = phoneNumber.startsWith("0")
-      ? `+66${phoneNumber.substring(1)}`
-      : phoneNumber;
-
-    if (phoneNumberExists) {
-      try {
-        const phoneProvider = new PhoneAuthProvider(auth);
-        const verificationId = await phoneProvider.verifyPhoneNumber(
-          formattedPhoneNumber,
-          recaptchaVerifier.current
-        );
-        setVerificationId(verificationId);
-        navigation.replace("OTP", {
-          verificationId,
-          auth,
-          phoneNumber: formattedPhoneNumber,
-        });
-      } catch (err) {
-        Alert.alert("Verification Error", `Error: ${err.message}`);
-      }
-    } else {
-      Alert.alert(
-        "หมายเลขดังกล่าวยังไม่ถูกลงทะเบียน",
-        "ไม่พบบัญชีผู้ใช้ กรุณาสมัครสมาชิก."
-      );
-    }
-  };
+  const [userData, setUserData] = React.useState(null);
 
   const checkPhoneNumberExists = async (phoneNumber) => {
-    const db = getDatabase();
-    const usersRef = ref(db, "users");
-
     try {
-      const snapshot = await get(usersRef);
-
-      if (snapshot.exists()) {
-        const userData = snapshot.val();
-        const phoneNumbers = Object.values(userData).map(
-          (user) => user.phoneNumber
-        );
-
-        // Check if the phone number or its formatted version exists
-        return (
-          phoneNumbers.includes(phoneNumber) ||
-          phoneNumbers.includes(`+66${phoneNumber.substring(1)}`)
-        );
-      }
-
-      return false;
+      // เชื่อมต่อกับ Firebase Realtime Database
+      const db = getDatabase();
+      const usersRef = ref(db, 'users');
+      const userQuery = query(usersRef, orderByChild('phoneNumber'), equalTo(phoneNumber));
+      const snapshot = await get(userQuery);
+      
+      return snapshot.exists();
     } catch (error) {
-      console.error("Error checking phone number:", error);
-      return false; // Assume phone number doesn't exist on error
+      console.error('Error fetching user:', error.message);
+      throw error;
     }
   };
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const db = getDatabase();
+        const usersRef = ref(db, 'users');
+        const userQuery = query(usersRef, orderByChild('phoneNumber'), equalTo(phoneNumber));
+        const snapshot = await get(userQuery);
+        
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          setUserData(userData);
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error.message);
+      }
+    };
 
-  const handleSignUp = () => {
-    // ทำตามที่คุณต้องการเมื่อคลิกที่ลิงก์สมัครสมาชิก
-    console.log("Redirecting to sign-up screen");
-    navigation.navigate("Register");
+    if (phoneNumber) {
+      fetchUserData();
+    }
+  }, [phoneNumber]);
+
+  const handleLogin = async () => {
+    try {
+      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+      const phoneNumberExists = await checkPhoneNumberExists(formattedPhoneNumber);
+  
+      if (phoneNumberExists) {
+        console.log('มีข้อมูลผู้ใช้ในฐานข้อมูล', formattedPhoneNumber);
+  
+        // ดึงข้อมูลผู้ใช้ที่มีเบอร์โทรศัพท์ตรงกับ formattedPhoneNumber
+        const db = getDatabase();
+        const usersRef = ref(db, 'users');
+        const userQuery = query(usersRef, orderByChild('phoneNumber'), equalTo(formattedPhoneNumber));
+        const snapshot = await get(userQuery);
+  
+        if (snapshot.exists()) {
+          const users = snapshot.val();
+          const userKey = Object.keys(users).find(key => users[key].phoneNumber === formattedPhoneNumber);
+        
+          if (userKey) {
+            const userData = users[userKey];
+            //
+            userData.userID = userKey;
+            //console.log("yes",userData);
+            navigation.replace("Navigationmenu", { userData });
+            return userData;
+          } else {
+            throw new Error('User not found');
+          }
+        } else {
+          throw new Error('No users found');
+        }
+        
+      } else {
+        console.log('ไม่พบข้อมูลผู้ใช้ในฐานข้อมูล');
+      }
+  
+    } catch (error) {
+      console.error('Error fetching user:', error.message);
+    }
   };
-  //--------------------------------------------------------------------------------//
+  
+  
+  // ฟังก์ชันเพื่อจัดรูปแบบเบอร์โทรศัพท์ใหม่ตามที่ระบุ
+  const formatPhoneNumber = (phoneNumber) => {
+    return phoneNumber.startsWith("0")
+      ? `+66${phoneNumber.substring(1)}`
+      : phoneNumber;
+  };
+    //--------------------------------------------------------------------------------//
+    const handleSignUp = () => {
+      // ทำตามที่คุณต้องการเมื่อคลิกที่ลิงก์สมัครสมาชิก
+      console.log("Redirecting to sign-up screen");
+      navigation.navigate("Register");
+    };
 
   const handleLogigAdmin = () => {
     console.log("Navigating to loginAdmin");
@@ -143,20 +162,21 @@ const Login = ({ navigation }) => {
           style={styles.BackButton}
           onPress={handleLogigAdmin}
         >
-          <FontAwesome5 name="address-card" size={24} color="#374955" />
+          <Image source={AdminIcon} style={styles.icon} />
         </TouchableOpacity>
 
 
         <View style={styles.View}>
-          <FirebaseRecaptchaVerifierModal
-            ref={recaptchaVerifier}
-            firebaseConfig={app.options}
-          />
+          
 
           <Text style={styles.Textheader}>Login</Text>
 
           <TextInput
-            left={<TextInput.Icon icon="phone" disabled />}
+            left={
+              <TextInput.Icon
+                icon={({ size, color }) => (
+                    <Image source={PhoneIcon} style={styles.icon} />
+                )}/>}
             keyboardType="phone-pad"
             autoFocus
             autoCompleteType="tel"
@@ -278,6 +298,13 @@ const styles = StyleSheet.create({
     marginTop: 18,
     margin: 6,
   },
+
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: '#374955' ,
+  },
+  
 });
 
 export default Login;

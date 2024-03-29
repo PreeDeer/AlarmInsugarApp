@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, Text, ScrollView } from "react-native";
+import { GestureHandlerRootView} from 'react-native-gesture-handler';
+
 
 const MessageList = ({ messages }) => {
   return (
     <View style={{ flex: 1, margin: 18 }}>
-      <ScrollView>
+      <GestureHandlerRootView>
+        <ScrollView>
       {messages.map((message, index) => (
         <View
           key={index}
@@ -24,6 +26,7 @@ const MessageList = ({ messages }) => {
         </View>
       ))}
       </ScrollView>
+      </GestureHandlerRootView>
     </View>
   );
 };

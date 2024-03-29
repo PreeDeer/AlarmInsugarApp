@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,38 +7,23 @@ import {
   SafeAreaView,
   Image,
   Alert,
-  AppRegistry,
   ImageBackground,
-  Pressable,
+  StatusBar,
+  Platform,
 } from "react-native";
-
 import {
   Button,
   TextInput,
-  Avatar,
-  Provider as PaperProvider,
-  DefaultTheme,
-  configureFonts,
-  MD2LightTheme,
 } from "react-native-paper";
+import { signInWithCredential } from "firebase/auth";
+import { FirebaseRecaptchaBanner } from "react-native-google-recaptcha";
 
-import {
-  getAuth,
-  PhoneAuthProvider,
-  signInWithCredential,
-} from "firebase/auth";
-import {
-  FirebaseRecaptchaVerifierModal,
-  FirebaseRecaptchaBanner,
-} from "expo-firebase-recaptcha";
-import Constants from "expo-constants";
-
-import bgImg from "../../assets/bg.png";
+const statusBarHeight = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 const OTP = ({ navigation, route }) => {
-  const [verificationCode, setVerificationCode] = React.useState("");
-  const [message, showMessage] = React.useState();
-  const attemptInvisibleVerification = true;
+  const [verificationCode, setVerificationCode] = useState("");
+  const [message, setMessage] = useState("");
+  const [attemptInvisibleVerification, setAttemptInvisibleVerification] = useState(true);
 
   const auth = route.params.auth;
   const verificationId = route.params.verificationId;
@@ -47,15 +32,9 @@ const OTP = ({ navigation, route }) => {
   // Function to resend OTP
   const resendOtp = async () => {
     try {
-      const phoneProvider = new PhoneAuthProvider(auth);
-      const newVerificationId = await phoneProvider.verifyPhoneNumber(
-        phoneNumber,
-        recaptchaVerifier.current
-      );
-      showMessage({ text: "OTP sent successfully" });
-      setVerificationId(newVerificationId);
+      // ใส่โค้ดสำหรับการส่ง OTP อีกครั้งที่นี่
     } catch (err) {
-      showMessage({ text: `Error: ${err.message}`, color: "red" });
+      Alert.alert("เกิดข้อผิดพลาด", `Error: ${err.message}`);
     }
   };
 
@@ -95,14 +74,12 @@ const OTP = ({ navigation, route }) => {
                 verificationCode
               );
               await signInWithCredential(auth, credential);
-              //Alert.alert('ยินดีต้อนรับเข้าสู่ระบบ');
-              //showMessage({ text: "ยินดีต้อนรับเข้าสู่ระบบ" });
               navigation.replace("Navigationmenu", { phoneNumber });
             } catch (err) {
               if (err.code === "auth/code-expired") {
-                Alert.alert('รหัสOTPมีปัญหา', `โปรดกดส่งรหัสOTPใหม่อีกครั้ง`);
+                Alert.alert('รหัส OTP หมดอายุ', `โปรดกดส่งรหัส OTP ใหม่อีกครั้ง`);
               } else {
-                Alert.alert("การยืนยันด้วยรหัสOTPไม่สำเร็จ", `Error: ${err.message}`);
+                Alert.alert("การยืนยันด้วยรหัส OTP ไม่สำเร็จ", `Error: ${err.message}`);
               }
             }
           }}
@@ -115,7 +92,7 @@ const OTP = ({ navigation, route }) => {
         {message ? (
           <TouchableOpacity
             style={[StyleSheet.absoluteFill, { justifyContent: "center" }]}
-            onPress={() => showMessage(undefined)}
+            onPress={() => setMessage("")}
           >
             <Text
               style={{
@@ -125,7 +102,7 @@ const OTP = ({ navigation, route }) => {
                 margin: 20,
               }}
             >
-              {message.text}
+              {message}
             </Text>
           </TouchableOpacity>
         ) : undefined}
@@ -138,7 +115,7 @@ const OTP = ({ navigation, route }) => {
 const styles = {
   backgroundStyle: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: statusBarHeight,
   },
   View: {
     flex: 1,

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
@@ -19,6 +20,7 @@ import {
 } from "firebase/database";
 import { Icon } from "react-native-elements";
 
+import BackIcon from '../assets/icon/black.png'; 
 const ReadHistoryUsersA = ({ navigation, route }) => {
   const [userData, setUserData] = useState(null);
   const [assessmentHistory, setAssessmentHistory] = useState([]);
@@ -70,7 +72,7 @@ const ReadHistoryUsersA = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}
         activeOpacity={0.85}
       >
-        <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+        <Image source={BackIcon} style={styles.icon} />
       </TouchableOpacity>
 
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -151,6 +153,12 @@ const styles = StyleSheet.create({
     margin: 6,
     marginStart: 18,
   },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
+  }
 });
 
 export default ReadHistoryUsersA;

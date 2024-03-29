@@ -42,7 +42,8 @@ import MessageList from "../../components/MessageList";
 import CustomKeybordView from "../../components/CustomKeybordView";
 
 import { Icon } from "react-native-elements";
-import { FontAwesome5 } from "@expo/vector-icons";
+import BackIcon from '../../assets/icon/black.png'; 
+import SendIcon from '../../assets/icon/send.png'; 
 
 const Chatusers = ({ navigation, route }) => {
   const [userData, setUserData] = useState(null);
@@ -121,12 +122,7 @@ const Chatusers = ({ navigation, route }) => {
             onPress={() => navigation.goBack()}
             activeOpacity={0.85}
           >
-            <Icon
-              name="chevron-back"
-              size={24}
-              color="#1b1b1b"
-              type="ionicon"
-            />
+            <Image source={BackIcon} style={styles.icon} />
           </TouchableOpacity>
           <Text style={styles.headerText}>พูดคุยกับคุณหมอ</Text>
         </View>
@@ -147,7 +143,7 @@ const Chatusers = ({ navigation, route }) => {
               style={{ ...styles.MeButton }}
               onPress={sendMessage}
             >
-              <FontAwesome5 name="location-arrow" size={27} color="#E6F4F1" />
+              <Image source={SendIcon} style={{...styles.icon,tintColor: '#fff'}} />
             </TouchableOpacity>
           </View>
         </View>
@@ -268,6 +264,12 @@ const styles = StyleSheet.create({
     marginRight: 1,
     marginTop: 5,
     borderRadius: 200,
+  },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
   },
 });
 

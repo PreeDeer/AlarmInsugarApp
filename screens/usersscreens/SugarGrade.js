@@ -6,6 +6,7 @@ import {
   Alert,
   TextInput as RNTextInput,
   SafeAreaView,
+  Image,
 } from "react-native";
 import {
   Button,
@@ -25,12 +26,11 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 import { Icon } from "react-native-elements";
 
+import BackIcon from '../../assets/icon/black.png'; 
+
 const Sugargrade = ({ navigation,route }) => {
   const [userData, setUserData] = useState(null);
-  const [username, setUsername] = useState("");
-  const [maxsugar, setMaxsugar] = useState("");
-  const [minsugar, setMinsugar] = useState("");
-
+  
   const [resultsugar, setResultsugar] = useState("");
   const [error, setError] = useState("");
 
@@ -52,77 +52,15 @@ const Sugargrade = ({ navigation,route }) => {
     
   }, [route.params]);
 
-  const fetchUserDataByPhoneNumber = async () => {
-    const userPhoneNumber = auth.currentUser.phoneNumber;
-
-    if (userPhoneNumber) {
-      const db = getDatabase();
-      const usersRef = ref(db, "users");
-
-      try {
-        const usersSnapshot = await get(usersRef);
-
-        if (usersSnapshot.exists()) {
-          const users = usersSnapshot.val();
-          const userKey = Object.keys(users).find(
-            (key) => users[key].phoneNumber === userPhoneNumber
-          );
-
-          if (userKey) {
-            const userData = users[userKey];
-            return userData;
-          } else {
-            throw new Error("User not found");
-          }
-        } else {
-          throw new Error("No users found");
-        }
-      } catch (error) {
-        throw new Error("Error fetching user data: " + error.message);
-      }
-    } else {
-      throw new Error("User phone number not available");
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await fetchUserDataByPhoneNumber();
-
-        if (userData) {
-          setUsername(userData.username || "");
-          setMaxsugar(userData.maxsugar || "");
-          setMinsugar(userData.minsugar || "");
-        } else {
-          setUsername("");
-          setMaxsugar("");
-          setMinsugar("");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        fetchData();
-      } else {
-        // User is not logged in, navigate to login screen
-        navigation.navigate("Login");
-      }
-    });
-
-    return unsubscribe; // Cleanup the subscription when the component unmounts
-  }, [isFocused, navigation]);
 
   const handleResult = () => {
     const inputValue = resultsugar;
-    const minSugarValue = parseFloat(minsugar);
+    const minSugarValue = parseFloat(userData.minsugar);
     const inputValueNumber = parseFloat(inputValue);
 
     if (inputValue.trim() === "") {
       setError("โปรดใส่ค่าน้ำตาลในเลือดที่วัดได้");
+      console.log("555",minSugarValue);
     } else if (!isNaN(minSugarValue) && !isNaN(inputValueNumber)) {
       if (inputValueNumber < minSugarValue) {
         setModalLowVisible(true);
@@ -143,7 +81,7 @@ const Sugargrade = ({ navigation,route }) => {
         onPress={() => navigation.goBack()}
         activeOpacity={0.85}
       >
-        <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+        <Image source={BackIcon} style={styles.icon} />
       </TouchableOpacity>
 
       <View style={styles.View}>
@@ -168,9 +106,7 @@ const Sugargrade = ({ navigation,route }) => {
                 marginTop: 30,
               }}
             >
-              {minsugar !== null && minsugar !== ""
-                ? minsugar
-                : (userData && userData.minsugar) || "mg/dL"}
+              {userData && userData.minsugar ? userData.minsugar : "mg/dL"}
             </Text>
             <Text
               style={{
@@ -190,9 +126,7 @@ const Sugargrade = ({ navigation,route }) => {
                 marginTop: 30,
               }}
             >
-              {maxsugar !== null && maxsugar !== ""
-                ? maxsugar
-                : (userData && userData.maxsugar) || "mg/dL"}
+              {userData && userData.maxsugar ? userData.maxsugar : "mg/dL"}
             </Text>
             <Text
               style={{ fontSize: 22, color: "gray", marginTop: 38, margin: 4 }}
@@ -454,6 +388,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   // End of Styles for Modal
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
+  },
 });
 
 export default Sugargrade;

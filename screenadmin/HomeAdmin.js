@@ -28,6 +28,8 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDatabase, ref, get, on } from "firebase/database";
 import { Icon } from "react-native-elements";
 
+import CircleIcon from '../assets/icon/circle.png'; 
+import SearchIcon from '../assets/icon/search.png'; 
 const HomeAdmin = ({ navigation, route }) => {
   const [searchText, setSearchText] = useState("");
   const [userData, setUserData] = useState([]);
@@ -139,7 +141,7 @@ const HomeAdmin = ({ navigation, route }) => {
             onChangeText={(text) => setSearchText(text)}
           />
           <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <Icon name="search" type="material" size={25} color="white" />
+          <Image source={SearchIcon} style={styles.icon} />
           </TouchableOpacity>
         </View>
         <Text style={styles.Textheader1}>รายชื่อผู้ใช้งาน</Text>
@@ -152,15 +154,7 @@ const HomeAdmin = ({ navigation, route }) => {
               onPress={() => handleUsers(item)}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon
-                  name={item.hasRooms ? "circle" : "circle"}
-                  type="font-awesome"
-                  color={
-                    item.iconColor 
-                  }
-                  size={20}
-                  style={styles.redDot}
-                />
+              <Image source={CircleIcon} style={[styles.circleIcon, { tintColor: item.iconColor }]} />
                 <Text style={styles.Textheader}>คุณ : {item.username}</Text>
               </View>
             </TouchableOpacity>
@@ -285,6 +279,20 @@ const styles = StyleSheet.create({
     marginStart: 18,
     marginTop: 5,
   },
+
+  circleIcon: {
+    width: 20,
+    height: 20,
+    marginStart: 18,
+    marginRight: 5,
+    marginTop: 5,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    tintColor: '#374955' ,
+  }
+  
 });
 
 export default HomeAdmin;

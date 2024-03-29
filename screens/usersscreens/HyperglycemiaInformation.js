@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import BackIcon from '../../assets/icon/black.png'; 
 const HyperglycemiaInformation = ({ navigation, router }) => {
   return (
     <SafeAreaView style={styles.backgroundImage}>
@@ -21,7 +21,7 @@ const HyperglycemiaInformation = ({ navigation, router }) => {
           onPress={() => navigation.goBack()}
           activeOpacity={0.85}
         >
-          <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+          <Image source={BackIcon} style={styles.icon} />
         </TouchableOpacity>
         <Text style={styles.headerText}>อาการน้ำตาลในเลือดสูง</Text>
       </View>
@@ -68,6 +68,12 @@ const styles = StyleSheet.create({
     width: wp('100%'), 
     height: hp('100%'), 
     resizeMode: "cover",
+  },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
   },
 });
 

@@ -9,12 +9,15 @@ import {
   ScrollView,
   Animated,
   Modal,
+  Image,
 } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { Icon } from "react-native-elements";
 
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, push, set, serverTimestamp , get, query,} from "firebase/database";
+
+import BackIcon from '../../assets/icon/black.png'; 
 
 const items = [
   {
@@ -137,7 +140,7 @@ const Graph = ({ navigation,route }) => {
         onPress={() => navigation.goBack()}
         activeOpacity={0.85}
       >
-        <Icon name="chevron-back" size={24} color="#1b1b1b" type="ionicon" />
+        <Image source={BackIcon} style={styles.icon} />
       </TouchableOpacity>
 
       <ScrollView>
@@ -316,6 +319,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 500,
+  },
+  icon: {
+    marginStart: 8,
+    width: 25,
+    height: 25,
+    tintColor: '#374955' ,
   },
 });
 

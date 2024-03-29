@@ -30,8 +30,7 @@ import {
 import { getDatabase, ref, set, push } from "firebase/database";
 
 import { Icon } from "react-native-elements";
-import Constants from "expo-constants";
-
+import DownIcon from '../../assets/icon/down.png'; 
 const Register = ({ navigation }) => {
 
   const [registeredUserId, setRegisteredUserId] = useState("");
@@ -285,7 +284,7 @@ const Register = ({ navigation }) => {
               right={
                 <TextInput.Icon
                   icon={({ size, color }) => (
-                    <List.Icon icon="menu-down" color={color} size={size} />
+                    <Image source={DownIcon} style={styles.icon} />
                   )}
                   onPress={handleDropdownPress}
                   style={{ marginTop: 45, marginRight: 15 }}

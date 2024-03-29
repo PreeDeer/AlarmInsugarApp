@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -23,25 +24,41 @@ import {
   MD2LightTheme,
 } from "react-native-paper";
 
-//import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Icon } from "react-native-elements";
 
 
 
-import Home from "../screens/Menumain/Home";
-import Moremenu from "../screens/Menumain/Moremenu";
+import Home from "../screens/mainview/Home";
+import Moremenu from "../screens/mainview/Moremenu";
 import Alarmmain from "../screens/Alarm/Alarmmain";
 import { NavigationContainer } from "@react-navigation/native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
+import HomeIcon from '../assets/icon/home.png'; 
+import AlarmIcon from '../assets/icon/alarm.png'; 
+import MoreIcon from '../assets/icon/more.png'; 
+
 const Tab = createBottomTabNavigator();
 
-export default function Navigationmenu() {
+export default function Navigationmenu({ navigation,route }) {
+
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        console.log("userData:", userData);
+        
+        if (route.params && route.params.userData) {
+          const userData = route.params.userData;
+          setUserData(userData);
+        }
+      }, [route.params]);
+
   return (
     <Tab.Navigator
       initialRouteName={"หน้าหลัก"}
+      initialParams={{ userData: route.params?.userData }}
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
@@ -52,39 +69,32 @@ export default function Navigationmenu() {
     >
       <Tab.Screen
         name="นาฬิกาปลุก"
+        initialParams={{ userData: route.params?.userData }}
         component={Alarmmain}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon
-              name="bell-circle"
-              type="material-community"
-              size={35}
-              color="rgba(230, 244, 241, 1)"
-            />
+            <Image source={AlarmIcon} style={styles.icon} />
           ),
         }}
       />
 
       <Tab.Screen
         name="หน้าหลัก"
+        initialParams={{ userData: route.params?.userData }}
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" size={35} color="rgba(230, 244, 241, 1)" />
+            <Image source={HomeIcon} style={styles.icon} />
           ),
         }}
       />
       <Tab.Screen
         name="เพิ่มเติม"
+        initialParams={{ userData: route.params?.userData }}
         component={Moremenu}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon
-              name="view-grid-plus"
-              type="material-community"
-              size={35}
-              color="rgba(230, 244, 241, 1)"
-            />
+                <Image source={MoreIcon} style={styles.icon} />
           ),
         }}
       />
@@ -109,6 +119,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     elevation: 8,
+  },
+  icon: {
+    width: 35,
+    height: 35,
+    tintColor: '#fff' ,
   },
 
 });
