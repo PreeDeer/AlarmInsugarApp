@@ -36,7 +36,8 @@ import DatePicker from "react-native-datepicker";
 import { Database } from "../Alarm/DatabaseAlarm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as Notifications from "expo-notifications";
+//import * as Notifications from "expo-notifications";
+import PushNotification from 'react-native-push-notification';
 
 import { Icon } from "react-native-elements";
 import { Audio } from 'expo-av';
@@ -307,7 +308,7 @@ const Alarmmain = ({ navigation, route }) => {
 
     if (englishDays.includes(currentDay)) {
 
-      Notifications.scheduleNotificationAsync({
+      PushNotification.localNotificationSchedule({
         content: {
           title: "แจ้งเตือน",
           body: notificationMessage,

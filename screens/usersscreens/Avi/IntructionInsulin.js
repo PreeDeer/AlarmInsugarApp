@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Icon } from "react-native-elements";
-import { Video } from "expo-av";
+import Video from "react-native-video";
 
-const IntructionInsulin = ({ navigation, router }) => {
+const IntructionInsulin = ({ navigation }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -17,8 +17,8 @@ const IntructionInsulin = ({ navigation, router }) => {
         const uri = URL.createObjectURL(blob);
 
         if (videoRef.current) {
-          videoRef.current.loadAsync({ uri });
-          videoRef.current.playAsync();
+          videoRef.current.seek(0);
+          videoRef.current.presentFullscreenPlayer();
         }
       } catch (error) {
         console.error("Error fetching video:", error);
@@ -26,12 +26,6 @@ const IntructionInsulin = ({ navigation, router }) => {
     };
 
     fetchVideo();
-
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.pauseAsync();
-      }
-    };
   }, []);
 
   return (
@@ -56,9 +50,10 @@ const IntructionInsulin = ({ navigation, router }) => {
       >
         <Video
           ref={videoRef}
+          source={{ uri: "https://firebasestorage.googleapis.com/v0/b/insulindatabase.appspot.com/o/instruction.mp4?alt=media" }}
           style={{ width: 300, height: 200 }}
-          useNativeControls
-          resizeMode="cover"
+          controls={true}
+          fullscreen
         />
       </View>
     </SafeAreaView>

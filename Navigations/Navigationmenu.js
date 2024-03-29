@@ -23,7 +23,7 @@ import {
   MD2LightTheme,
 } from "react-native-paper";
 
-import { StatusBar } from "expo-status-bar";
+//import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Icon } from "react-native-elements";

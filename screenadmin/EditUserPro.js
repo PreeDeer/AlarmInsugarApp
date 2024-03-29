@@ -29,7 +29,7 @@ import {
 } from "react-native-paper";
 
 import { Icon } from "react-native-elements";
-import Constants from "expo-constants";
+//import Constants from "expo-constants";
 
 import {
   get,

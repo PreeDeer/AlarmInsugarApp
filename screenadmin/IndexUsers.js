@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+//import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -28,7 +28,7 @@ import {
 } from "react-native-paper";
 //--------------------------------------------------------------------------------//
 
-import Constants from "expo-constants";
+//import Constants from "expo-constants";
 import {
   getDatabase,
   ref,

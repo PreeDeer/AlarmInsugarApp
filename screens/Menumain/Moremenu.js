@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -28,7 +27,6 @@ import {
   MD2LightTheme,
 } from "react-native-paper";
 
-import Constants from "expo-constants";
 import {
   getDatabase,
   ref,
